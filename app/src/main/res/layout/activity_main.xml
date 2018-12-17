@@ -9,11 +9,18 @@
         android:id="@+id/context_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onClick"
         android:text="@string/context_start_text"/>
 
     <Button
         android:id="@+id/activity_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onClick"
         android:text="@string/activity_start_text"/>
+
+    <EditText
+        android:id="@+id/et_binder_hook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

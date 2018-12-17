@@ -8,13 +8,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
+
+import com.test.testhook.AmsPmsHook.AmsPmsHookHandler;
+import com.test.testhook.AmsPmsHook.AmsPmsHookHelper;
+import com.test.testhook.binderhook.BinderHookHelper;
 
 import java.lang.reflect.Field;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     Button btContextStart, btActivityStart;
+    EditText etBinderHook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +37,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
 
+        // binder hook
+        try {
+            BinderHookHelper.hookClipboardService();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         setContentView(R.layout.activity_main);
 
         btContextStart = findViewById(R.id.context_start);
         btActivityStart = findViewById(R.id.activity_start);
-        btContextStart.setOnClickListener(this);
-        btActivityStart.setOnClickListener(this);
+        etBinderHook = findViewById(R.id.et_binder_hook);
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
+    protected void attachBaseContext(Context context) {
+        AmsPmsHookHelper.hookActivityManager();
+        AmsPmsHookHelper.hookPackageManager(context);
+        super.attachBaseContext(context);
         try {
             // 在这里进行Hook
             HookHelper.attachContext();
